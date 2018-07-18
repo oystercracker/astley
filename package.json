@@ -1,7 +1,7 @@
 {
   "name": "astley",
   "version": "1.0.0",
-  "description": "ECMAScript AST manipulation for dummies",
+  "description": "Easy AST manipulation. Dynamically modify JavaScript code with ease.",
   "main": "index.js",
   "scripts": {
     "test": "node_modules/mocha/bin/mocha"
