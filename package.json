@@ -16,7 +16,8 @@
     "ast",
     "query",
     "codemod",
-    "memes"
+    "memes",
+    "parse"
   ],
   "author": "Ten Bitcomb",
   "license": "MIT",
