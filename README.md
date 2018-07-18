@@ -1,6 +1,8 @@
 Astley 🕶️
 =====
 
+![TravisCI](https://travis-ci.org/oystercracker/astley.svg?branch=master)
+
 Easy AST manipulation. Dynamically modify JavaScript code with ease.
 
 ## Example Usage
