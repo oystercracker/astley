@@ -64,7 +64,7 @@ describe('astley', function(){
     });
     it('does not raise an exception from the filter function', function(){
       const astley = Astley.fromObject({});
-      astley.search(obj => blah.blah.blah === wrong.totally.wrong );
+      astley.search(obj => gave.up === and.let.you.down );
     });
     it('can be configured to raise an exception', function(){
       const astley = Astley.fromObject({});
@@ -85,6 +85,18 @@ describe('astley', function(){
             results = astley.search(obj => obj.label.name === 'never')
                             .search(obj => obj.label.name === 'gonna');
       assert.notEmpty(results);
+    });
+    it('can search by parent object', function(){
+      const myObject = {
+        youKnowTheRules: {
+          andSo: {
+            do: 'i'
+          }
+        }
+      };
+      const astley = Astley.fromObject(myObject),
+            result = astley.search(x => x.parent.key.name == 'andSo' && x.type == 'ObjectExpression')[0];
+      assert.equal(result.ast.properties[0].key.value, 'do');
     });
   });
   describe('prop()', function(){

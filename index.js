@@ -3,7 +3,8 @@
 const recast    = require('recast'),
       stringify = require('javascript-stringify'),
     { entries,
-      values }  = Object,
+      values,
+      assign }  = Object,
     { isPlainObject,
       isNil }   = require('./utils');
 
@@ -185,14 +186,15 @@ class AstleyNode {
           options = args.pop() || {},
           index   = [];
     if(typeof fn !== 'function') throw new Error('Search method expects a callback function.');
-    function buildIndex(obj){
-      if(isPlainObject(obj)){
-        // index object if we don't already have it
-        if(index.indexOf(obj) < 0) index.push(obj);
-        values(obj).forEach(value => buildIndex(value));
-      } else if(Array.isArray(obj)) {
-        obj.forEach(i => buildIndex(i));
-      }
+    function buildIndex(node, parent){
+      const indice  = assign({}, node);
+      indice.__node = node;
+      indice.parent = parent;
+      if(Array.isArray(node))  return node.forEach(i => buildIndex(i, indice));
+      if(!isPlainObject(node)) return;
+      // index object if we don't already have it
+      if(index.indexOf(node) < 0) index.push(indice);
+      values(node).forEach(value => buildIndex(value, indice));
     }
     buildIndex(this.ast);
     const results = [],
@@ -201,7 +203,7 @@ class AstleyNode {
     while(i<len){
       try {
         const item = index[i];
-        if(fn(item)) results.push(item); 
+        if(fn(item, item.parent)) results.push(item.__node);
       } catch(err) {
         if(options.throwErrors) throw err;
       }
